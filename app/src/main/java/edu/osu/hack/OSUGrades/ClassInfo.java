@@ -36,9 +36,7 @@ public class ClassInfo {
         return GPA;
     }
 
-    public String getCourseID() {
-        return CourseID;
-    }
+    public String getCourseID() { return CourseID; }
 
     public int getReported() { return reported; }
 

@@ -1,8 +1,8 @@
 package edu.osu.hack.OSUGrades;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AddGPAActivity extends AppCompatActivity {
 

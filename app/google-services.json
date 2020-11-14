@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "764744380360",
+    "firebase_url": "https://osugrades-287d6.firebaseio.com",
+    "project_id": "osugrades-287d6",
+    "storage_bucket": "osugrades-287d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764744380360:android:dc228ca8d1287d963edafd",
+        "android_client_info": {
+          "package_name": "edu.osu.hack.OSUGrades"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764744380360-ar1belf7rmb3cb8r7upaap8q2gg54478.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9kbaxHxb7ivivdviNSI9HnXAVTFvTRxU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764744380360-ar1belf7rmb3cb8r7upaap8q2gg54478.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "764744380360-8qe2d9r4n9f1ibn2rog6mjej0l1f1ubr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "edu.osu.hack.OSUGrades"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

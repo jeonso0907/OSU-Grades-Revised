@@ -40,11 +40,17 @@ public class AddGPAActivity extends AppCompatActivity {
                     DocumentSnapshot doc = task.getResult();
                     if ( doc.exists()) {
                         Map<String, Object> temp = doc.getData();
+                        int addGPA = 0;
+                        double addRate = 0;
                         ClassInfo infoTemp;
 
                         String professorName = ((EditText)findViewById(R.id.newprofessor)).getText().toString();
-                        int addGPA = Integer.parseInt(((EditText)findViewById(R.id.newGPA)).getText().toString());
-                        double addRate = Double.parseDouble(((EditText)findViewById(R.id.newRate)).getText().toString());
+                        try {
+                            addGPA = Integer.parseInt(((EditText)findViewById(R.id.newGPA)).getText().toString());
+                            addRate = Double.parseDouble(((EditText)findViewById(R.id.newRate)).getText().toString());
+                        } catch (NullPointerException e) {
+                            Log.e("ERROR", "NULLPOINTEXCEPTION");
+                        }
 
                         String courseID = (String) temp.get("course");
                         double averageGPA = 0;
@@ -103,7 +109,6 @@ public class AddGPAActivity extends AppCompatActivity {
                         }
 
                         docRef.update(temp);
-
 
                     }
                 }

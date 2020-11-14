@@ -11,9 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:text="GPA"
         android:inputType="number"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="227dp" />
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="221dp" />
 
     <EditText
         android:id="@+id/newprofessor"
@@ -21,16 +22,17 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="164dp" />
+        android:text="Professor Name"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="160dp" />
 
     <EditText
         android:id="@+id/newRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:text="Difficult 1~5"
         android:inputType="numberDecimal"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="283dp" />
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="284dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

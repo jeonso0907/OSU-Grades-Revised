@@ -108,21 +108,23 @@ public class GradeResultActivity extends AppCompatActivity {
                             mainAdapter = new MainAdapter(professorList);
                             recyclerView.setAdapter(mainAdapter);
                         }
+
+                        add_GPA = findViewById(R.id.add_GPA);
+
+                        add_GPA.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(GradeResultActivity.this, AddGPAActivity.class);
+                                intent.putExtra("courseID", sessionID);
+
+                                startActivity(intent);
+                            }
+                        });
                     }
                 }
             }
         });
 
-        /*add_GPA = findViewById(R.id.add_GPA);
-
-        add_GPA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GradeResultActivity.this, AddGPAActivity.class);
-                intent.putExtra("courseID", sessionID);
-                startActivity(intent);
-            }
-        });*/
 
 
 

@@ -1,6 +1,7 @@
 package edu.osu.hack.OSUGrades;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -28,7 +29,10 @@ public class AddGPAActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_g_p_a);
 
-        final DocumentReference docRef = FirebaseFirestore.getInstance().collection("courses").document("");
+        final String sessionID = getIntent().getStringExtra("courseName");
+
+        final DocumentReference docRef = FirebaseFirestore.getInstance().collection("courses").document(sessionID);
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -37,29 +41,63 @@ public class AddGPAActivity extends AppCompatActivity {
                     if ( doc.exists()) {
                         Map<String, Object> temp = doc.getData();
                         ClassInfo infoTemp;
+
                         String professorName = ((EditText)findViewById(R.id.newprofessor)).getText().toString();
                         int addGPA = Integer.parseInt(((EditText)findViewById(R.id.newGPA)).getText().toString());
                         double addRate = Double.parseDouble(((EditText)findViewById(R.id.newRate)).getText().toString());
 
+                        String courseID = (String) temp.get("course");
+                        double averageGPA = 0;
+                        double rate = 0;
+                        int reported = 0;
+
                         if ( temp.containsKey("professorName")) {
-                            infoTemp = new ClassInfo((String) temp.get("course"), (float) temp.get("averageGPA"), (String) temp.get("professorName"), (double) temp.get("rating"), (int) temp.get("reported"));
+                            try {
+                                averageGPA = (double) temp.get("averageGPA");
+                                rate = (double) temp.get("rating");
+                                reported = (int) temp.get("reported");
+                            }
+                            catch (NullPointerException e) {
+                                Log.e("ERROR", "NULLPOINTEXCEPTION");
+                            }
+                            infoTemp = new ClassInfo(courseID, averageGPA, temp.get("professorName").toString(), rate, reported);
                         }
                         else {
-                            infoTemp = new ClassInfo((String) temp.get("course"), (float) temp.get("averageGPA"), (double) temp.get("rating"), (int) temp.get("reported"));
+                            try {
+                                averageGPA = (double) temp.get("averageGPA");
+                                rate = (double) temp.get("rating");
+                                reported = (int) temp.get("reported");
+                            }
+                            catch (NullPointerException e) {
+                                Log.e("ERROR", "NULLPOINTEXCEPTION");
+                            }
+                            infoTemp = new ClassInfo(courseID, averageGPA, rate, reported);
                         }
 
                         if ( infoTemp.getProfessorName().contains(professorName)) {
                             temp.clear();
                             temp.put("course", infoTemp.getCourseID());
-                            temp.put("averageGPA", (infoTemp.getGPA() + addGPA) / infoTemp.getReported());
-                            temp.put("rating", (infoTemp.getRate() + addRate) / infoTemp.getReported());
+                            if ( infoTemp.getReported() != 0 ) {
+                                temp.put("averageGPA", (infoTemp.getGPA() + addGPA) / infoTemp.getReported());
+                                temp.put("rating", (infoTemp.getRate() + addRate) / infoTemp.getReported());
+                            }
+                            else {
+                                temp.put("averageGPA", 0);
+                                temp.put("rating", 0);
+                            }
                             temp.put("reported", infoTemp.getReported() + 1);
                         }
                         else {
                             temp.clear();
                             temp.put("course", infoTemp.getCourseID());
-                            temp.put("averageGPA", (infoTemp.getGPA() + addGPA) / infoTemp.getReported());
-                            temp.put("rating", (infoTemp.getRate() + addRate) / infoTemp.getReported());
+                            if ( infoTemp.getReported() != 0 ) {
+                                temp.put("averageGPA", (infoTemp.getGPA() + addGPA) / infoTemp.getReported());
+                                temp.put("rating", (infoTemp.getRate() + addRate) / infoTemp.getReported());
+                            }
+                            else {
+                                temp.put("averageGPA", 0);
+                                temp.put("rating", 0);
+                            }
                             temp.put("reported", infoTemp.getReported() + 1);
                             temp.put("professors", infoTemp.getProfessorName().add(professorName));
                         }

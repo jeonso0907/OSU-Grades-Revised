@@ -96,8 +96,6 @@ public class GradeResultActivity extends AppCompatActivity {
                             rating.setText(String.valueOf("0"));
                         }
 
-
-
                         ClassName = findViewById(R.id.className);
                         ClassName.setText(String.valueOf(infoTemp.getCourseID()));
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,10 +55,10 @@ public class GradeResultActivity extends AppCompatActivity {
                         }
 
                         Average_GPA = findViewById(R.id.gpa_Average);
-                        Average_GPA.setText(String.valueOf(infoTemp.getAverage()));
+                        Average_GPA.setText(String.valueOf(infoTemp.getGPA()/infoTemp.getReported()));
 
                         rating = findViewById(R.id.rating);
-                        rating.setText(String.valueOf(infoTemp.getAverageRate()));
+                        rating.setText(String.valueOf(infoTemp.getRate()/infoTemp.getReported()));
 
                         ClassName = findViewById(R.id.className);
                         ClassName.setText(String.valueOf(infoTemp.getCourseID()));

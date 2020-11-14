@@ -30,12 +30,7 @@ public class ClassInfo {
         this.rate = rate;
         this.reported = reported + 1;
     }
-
-    public double getAverage() {
-        return GPA / reported;
-    }
-
-    public double getAverageRate() { return rate / reported; }
+    public double getRate() { return rate; }
 
     public double getGPA() {
         return GPA;

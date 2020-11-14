@@ -7,16 +7,16 @@
     tools:context=".AddGPAActivity">
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/newGPA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
         tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="244dp" />
+        tools:layout_editor_absoluteY="227dp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/newprofessor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -26,11 +26,11 @@
         tools:layout_editor_absoluteY="164dp" />
 
     <EditText
-        android:id="@+id/editTextNumberDecimal"
+        android:id="@+id/newRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="numberDecimal"
         tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="330dp" />
+        tools:layout_editor_absoluteY="283dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

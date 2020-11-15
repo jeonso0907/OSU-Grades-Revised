@@ -9,6 +9,6 @@ public class GradeResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_list);
+        setContentView(R.layout.activity_grade_result);
     }
 }

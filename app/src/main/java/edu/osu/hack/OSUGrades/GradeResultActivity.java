@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,6 +27,7 @@ import java.util.Map;
 public class GradeResultActivity extends AppCompatActivity {
 
     Button add_GPA;
+    Button logout;
     TextView ClassName;
     TextView Average_GPA;
     TextView rating;
@@ -82,7 +85,7 @@ public class GradeResultActivity extends AppCompatActivity {
 
                         Average_GPA = findViewById(R.id.gpa_Average);
                         if ( infoTemp.getReported() != 0) {
-                            Average_GPA.setText(String.valueOf(infoTemp.getGPA()/infoTemp.getReported()));
+                            Average_GPA.setText(String.valueOf(String.format("%.2f" , (infoTemp.getGPA()/infoTemp.getReported()))));
                         }
                         else {
                             Average_GPA.setText(String.valueOf("0"));
@@ -90,7 +93,7 @@ public class GradeResultActivity extends AppCompatActivity {
 
                         rating = findViewById(R.id.rating);
                         if ( infoTemp.getReported() != 0) {
-                            rating.setText(String.valueOf(infoTemp.getRate()/infoTemp.getReported()));
+                            rating.setText(String.valueOf(String.format("%.2f" , infoTemp.getRate()/infoTemp.getReported())));
                         }
                         else {
                             rating.setText(String.valueOf("0"));
@@ -118,6 +121,23 @@ public class GradeResultActivity extends AppCompatActivity {
                                 intent.putExtra("courseID", sessionID);
 
                                 startActivity(intent);
+                            }
+                        });
+
+                        logout = findViewById(R.id.logout);
+
+                        logout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                switch (v.getId()) {
+                                    case R.id.logout:
+                                        FirebaseAuth.getInstance().signOut();
+                                        logout.setText("LOG IN");
+                                        Intent intent = new Intent(GradeResultActivity.this, LoginActivity.class);
+                                        startActivity(intent);
+                                        break;
+                                }
+
                             }
                         });
                     }

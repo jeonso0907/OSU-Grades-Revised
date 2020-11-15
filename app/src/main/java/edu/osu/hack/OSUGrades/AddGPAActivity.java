@@ -129,7 +129,7 @@ public class AddGPAActivity extends AppCompatActivity {
                                     startActivity(intent);
                                 }
                                 else {
-                                    
+
                                 }
                             }
                         });

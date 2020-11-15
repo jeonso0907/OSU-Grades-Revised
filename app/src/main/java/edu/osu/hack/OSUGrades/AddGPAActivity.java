@@ -1,7 +1,10 @@
 package edu.osu.hack.OSUGrades;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,6 +26,7 @@ public class AddGPAActivity extends AppCompatActivity {
     TextView ClassName;
     TextView Average_GPA;
     TextView rating;
+    Button add_GPA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,7 @@ public class AddGPAActivity extends AppCompatActivity {
                 if ( task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
                     if ( doc.exists()) {
-                        Map<String, Object> temp = doc.getData();
+                        final Map<String, Object> temp = doc.getData();
                         int addGPA = 0;
                         double addRate = 0;
                         ClassInfo infoTemp;
@@ -108,7 +112,19 @@ public class AddGPAActivity extends AppCompatActivity {
                             temp.put("professors", infoTemp.getProfessorName().add(professorName));
                         }
 
-                        docRef.update(temp);
+                        add_GPA = (Button)findViewById(R.id.add_GPA);
+
+                        add_GPA.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(AddGPAActivity.this , GradeResultActivity.class);
+                                docRef.update(temp);
+
+                                startActivity(intent);
+                            }
+                        });
+
+
 
                     }
                 }

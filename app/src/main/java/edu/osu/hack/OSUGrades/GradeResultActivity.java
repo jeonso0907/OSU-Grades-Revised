@@ -39,13 +39,11 @@ public class GradeResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_grade_list);
 
         final String sessionID = getIntent().getStringExtra("courseName");
 
         DocumentReference docRef = FirebaseFirestore.getInstance().collection("courses").document(sessionID);
-
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -53,72 +51,59 @@ public class GradeResultActivity extends AppCompatActivity {
                     DocumentSnapshot doc = task.getResult();
                     if ( doc.exists() ) {
                         Map<String, Object> temp = doc.getData();
-                        ClassInfo infoTemp;
+                        Log.d("ERROR", "ERORRRRRRRRRRR" + temp.keySet().toString());
+                        ClassInfo infoTemp = new ClassInfo();
 
-                        String courseID = (String) temp.get("course");
-                        double averageGPA = 0;
-                        double rate = 0;
-                        int reported = 0;
+                        double averageGpa = (double) temp.get("averageGpa");
+                        long averageRating = (long) temp.get("rating");
 
-                        if ( temp.containsKey("professorName")) {
-                            try {
-                                averageGPA = (double) temp.get("averageGPA");
-                                rate = (double) temp.get("rating");
-                                reported = (int) temp.get("reported");
-                            }
-                            catch (NullPointerException e) {
-                                Log.e("ERROR", "NULLPOINTEXCEPTION");
-                            }
-                            infoTemp = new ClassInfo(courseID, averageGPA * reported, temp.get("professorName").toString(), rate, reported);
-                        }
-                        else {
-                            try {
-                                averageGPA = (double) temp.get("averageGPA");
-                                rate = (double) temp.get("rating");
-                                reported = (int) temp.get("reported");
-                            }
-                            catch (NullPointerException e) {
-                                Log.e("ERROR", "NULLPOINTEXCEPTION");
-                            }
-                            infoTemp = new ClassInfo(courseID, averageGPA * reported, rate, reported);
-                        }
+                        ArrayList<String> list = (ArrayList<String>) temp.get("professors");
 
-                        Average_GPA = findViewById(R.id.gpa_Average);
-                        if ( infoTemp.getReported() != 0) {
-                            Average_GPA.setText(String.valueOf(String.format("%.2f" , (infoTemp.getGPA()/infoTemp.getReported()))));
-                        }
-                        else {
-                            Average_GPA.setText(String.valueOf("0"));
-                        }
+                        if ( !list.isEmpty()) {
+                            Average_GPA = findViewById(R.id.gpa_Average);
+                            Average_GPA.setText("" + averageGpa);
 
-                        rating = findViewById(R.id.rating);
-                        if ( infoTemp.getReported() != 0) {
-                            rating.setText(String.valueOf(String.format("%.2f" , infoTemp.getRate()/infoTemp.getReported())));
-                        }
-                        else {
-                            rating.setText(String.valueOf("0"));
-                        }
+                            rating = findViewById(R.id.rating);
+                            rating.setText("" + averageRating);
 
-                        ClassName = findViewById(R.id.className);
-                        ClassName.setText(String.valueOf(infoTemp.getCourseID()));
+                            ClassName = findViewById(R.id.className);
+                            ClassName.setText(String.valueOf(infoTemp.getCourseID()));
 
-                        if ( infoTemp.getProfessorName() != null) {
-
-                            final ArrayList<String> professorList = infoTemp.getProfessorName();
                             recyclerView = (RecyclerView)findViewById(R.id.professorList);
                             recyclerView.setLayoutManager(linearLayoutManager);
 
-                            mainAdapter = new MainAdapter(professorList);
+                            mainAdapter = new MainAdapter(list);
                             recyclerView.setAdapter(mainAdapter);
+
+                            // infoTemp = new ClassInfo(courseID, averageGPA * reported, (ArrayList<String>) temp.get("professsors"), rate, reported);
                         }
+                        else {
+                            Average_GPA = findViewById(R.id.gpa_Average);
+                            Average_GPA.setText("" + averageGpa);
+
+                            rating = findViewById(R.id.rating);
+                            rating.setText("" + averageRating);
+
+                            recyclerView = findViewById(R.id.professorList);
+                            recyclerView.setLayoutManager(linearLayoutManager);
+                            ArrayList<String> empty = new ArrayList<>();
+                            empty.add("empty");
+                            mainAdapter = new MainAdapter(empty);
+                            recyclerView.setAdapter(mainAdapter);
+
+                            // infoTemp = new ClassInfo(courseID, averageGPA * reported, rate, reported);
+                        }
+
+                        ClassName = findViewById(R.id.className);
+                        ClassName.setText(temp.get("course").toString());
 
                         add_GPA = findViewById(R.id.add_GPA);
 
                         add_GPA.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(GradeResultActivity.this, AddGPAActivity.class);
-                                intent.putExtra("courseID", sessionID);
+                                Intent intent = new Intent(GradeResultActivity.this, AddInfoActivity.class);
+                                intent.putExtra("courseName", sessionID);
 
                                 startActivity(intent);
                             }

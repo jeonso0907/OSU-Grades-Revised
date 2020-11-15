@@ -61,7 +61,7 @@ public class CourseListActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 courseArray);
 
-        // Set the course list view with its id
+        // Set the course+ list view with its id
         final ListView courseList = (ListView) findViewById(R.id.courseList);
 
         // Display the course name in the list view

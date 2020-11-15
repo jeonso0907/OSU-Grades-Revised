@@ -2,15 +2,17 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent" android:orientation="vertical">
+
     <TextView
         android:id="@+id/className"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="50dp"
         android:background="#bb0000"
         android:gravity="center"
-        android:text="TextView"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:text="Course Name"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

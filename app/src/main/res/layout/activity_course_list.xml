@@ -8,6 +8,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#bb0000"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="Course List"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

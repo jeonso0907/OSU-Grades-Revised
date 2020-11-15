@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     } else {
                         if (task.getException() != null) {
-                            startToast(task.getException().toString());
+                            startToast("Incorrect Password or incorrect ID");
                         }
                     }
                 }

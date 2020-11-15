@@ -1,4 +1,5 @@
 package edu.osu.hack.OSUGrades;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,17 +13,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
 import java.util.ArrayList;
 import java.util.Map;
 public class GradeResultActivity extends AppCompatActivity {
@@ -38,6 +40,10 @@ public class GradeResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grade_list);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
         profList = (ListView) findViewById(R.id.profList);
         final String sessionID = getIntent().getStringExtra("courseName");
         DocumentReference docRef = FirebaseFirestore.getInstance().collection("courses").document(sessionID);
@@ -47,7 +53,6 @@ public class GradeResultActivity extends AppCompatActivity {
                 if (error != null) {
                     Log.w("ERROR", "Listen failed", error);
                 }
-
                 if (value != null && value.exists()) {
                     String averageGpa = String.format("%.2f", (double) value.getData().get("averageGpa"));
                     String averageRate = String.format("%.2f", (double) value.getData().get("rating"));
@@ -61,7 +66,6 @@ public class GradeResultActivity extends AppCompatActivity {
                 } else {
                     Log.d("Current", "Current Data: " + value.getData());
                 }
-
             }
         });
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -72,14 +76,10 @@ public class GradeResultActivity extends AppCompatActivity {
                     if (doc.exists()) {
                         Map<String, Object> temp = doc.getData();
                         Log.d("ERROR", "ERORRRRRRRRRRR" + temp.keySet().toString());
-
-                         double averageGPA = (double) temp.get("averageGpa");
-                         String GPA = String.format("%.2f", averageGPA);
-
-                         double averageRating = (double) temp.get("rating");
-                         String rate = String.format("%.2f", averageRating);
-
-
+                        double averageGPA = (double) temp.get("averageGpa");
+                        String GPA = String.format("%.2f", averageGPA);
+                        double averageRating = (double) temp.get("rating");
+                        String rate = String.format("%.2f", averageRating);
                         list = (ArrayList<String>) temp.get("professors");
                         if (list != null) {
                             Average_GPA = findViewById(R.id.gpa_Average);
@@ -89,13 +89,11 @@ public class GradeResultActivity extends AppCompatActivity {
                             ClassName = findViewById(R.id.className);
                             ClassName.setText(String.valueOf(temp.get("course")));
                             profListSet(list);
-
                         } else {
                             Average_GPA = findViewById(R.id.gpa_Average);
                             Average_GPA.setText(GPA);
                             rating = findViewById(R.id.rating);
                             rating.setText(rate);
-
                             ArrayList<String> templist = new ArrayList<>();
                             templist.add("Empty");
                             profListSet(templist);
@@ -108,9 +106,6 @@ public class GradeResultActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 Intent intent = new Intent(GradeResultActivity.this, AddInfoActivity.class);
                                 intent.putExtra("courseName", sessionID);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                finish();
                                 startActivity(intent);
                             }
                         });
@@ -137,7 +132,10 @@ public class GradeResultActivity extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
     public void startUrlActivity(String url) {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));

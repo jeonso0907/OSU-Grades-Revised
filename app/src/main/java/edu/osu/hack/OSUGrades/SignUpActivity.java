@@ -87,7 +87,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             Log.d(TAG, "createUserWithEmail:success");
 
 
-                                            // 이메일 인증 가입 테스트
+                                            // E-mail Confirmation
                                             mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
@@ -106,7 +106,6 @@ public class SignUpActivity extends AppCompatActivity {
                                             // UI
                                         }
 
-                                        // ...
                                     }
                                 });
 

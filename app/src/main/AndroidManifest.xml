@@ -11,14 +11,16 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".LoginActivity">
+
+        </activity>
+        <activity android:name=".CourseListActivity"></activity>
+        <activity android:name=".AddInfoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CourseListActivity"></activity>
-        <activity android:name=".AddInfoActivity"></activity>
         <activity android:name=".GradeResultActivity"></activity>
         <activity android:name=".ProfRateActivity"></activity>
         <activity android:name=".SignUpActivity"></activity>

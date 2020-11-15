@@ -58,9 +58,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void logIn() {
         String email = ((EditText)findViewById(R.id.textEmailAddress)).getText().toString();
+        email += "@osu.edu";
         String password = ((EditText)findViewById(R.id.textPassword)).getText().toString();
         if (email.isEmpty() || password.isEmpty()) {
-            startToast("email or password is not correct.");
+            startToast("email or password is not correct");
         } else {
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
@@ -68,8 +69,13 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         FirebaseUser user = mAuth.getCurrentUser();
-                        startToast("Login Success");
-                        listStartAcitivty(CourseListActivity.class);
+                        // After pressing the login button, check rather this user verified their email or not
+                        if (user.isEmailVerified()) {
+                            startToast("Login Success");
+                            listStartAcitivty(CourseListActivity.class);
+                        } else {
+                            startToast("Please verify your email before log in");
+                        }
                     } else {
                         if (task.getException() != null) {
                             startToast(task.getException().toString());

@@ -1,5 +1,6 @@
 package edu.osu.hack.OSUGrades;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,10 +13,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -89,9 +92,31 @@ public class CourseListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String courseName = (courseList.getItemAtPosition(position)).toString();
-                myStartActivity(courseName);
+                startActivity(courseName);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Would you like to logout?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // logout
+                        FirebaseAuth.getInstance().signOut();
+                        startLogoutActivity();
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // user doesn't want to logout
+                    }
+                })
+                .show();
     }
 
     // Get only the name of the course within the whole data
@@ -112,12 +137,21 @@ public class CourseListActivity extends AppCompatActivity {
     }
 
     // Intent to the next page with the name of the course
-    private void myStartActivity(String courseName) {
+    private void startActivity(String courseName) {
 
         Intent intent = new Intent(this, GradeResultActivity.class);
         intent.putExtra("courseName", courseName);
         startActivity(intent);
 
     }
+
+    private void startLogoutActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+
 
 }

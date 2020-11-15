@@ -66,7 +66,7 @@ public class GradeResultActivity extends AppCompatActivity {
                             catch (NullPointerException e) {
                                 Log.e("ERROR", "NULLPOINTEXCEPTION");
                             }
-                            infoTemp = new ClassInfo(courseID, averageGPA, temp.get("professorName").toString(), rate, reported);
+                            infoTemp = new ClassInfo(courseID, averageGPA * reported, temp.get("professorName").toString(), rate, reported);
                         }
                         else {
                             try {
@@ -77,7 +77,7 @@ public class GradeResultActivity extends AppCompatActivity {
                             catch (NullPointerException e) {
                                 Log.e("ERROR", "NULLPOINTEXCEPTION");
                             }
-                            infoTemp = new ClassInfo(courseID, averageGPA, rate, reported);
+                            infoTemp = new ClassInfo(courseID, averageGPA * reported, rate, reported);
                         }
 
                         Average_GPA = findViewById(R.id.gpa_Average);

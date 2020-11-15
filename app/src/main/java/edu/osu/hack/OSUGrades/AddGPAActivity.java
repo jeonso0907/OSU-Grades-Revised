@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,7 +71,7 @@ public class AddGPAActivity extends AppCompatActivity {
                             catch (NullPointerException e) {
                                 Log.e("ERROR", "NULLPOINTEXCEPTION");
                             }
-                            infoTemp = new ClassInfo(courseID, averageGPA, temp.get("professorName").toString(), rate, reported);
+                            infoTemp = new ClassInfo(courseID, averageGPA * reported, temp.get("professorName").toString(), rate, reported);
                         }
                         else {
                             try {
@@ -81,7 +82,7 @@ public class AddGPAActivity extends AppCompatActivity {
                             catch (NullPointerException e) {
                                 Log.e("ERROR", "NULLPOINTEXCEPTION");
                             }
-                            infoTemp = new ClassInfo(courseID, averageGPA, rate, reported);
+                            infoTemp = new ClassInfo(courseID, averageGPA * reported, rate, reported);
                         }
 
                         if ( infoTemp.getProfessorName().contains(professorName)) {
@@ -114,13 +115,22 @@ public class AddGPAActivity extends AppCompatActivity {
 
                         add_GPA = (Button)findViewById(R.id.add_GPA);
 
+                        final double gpa = addGPA;
+                        final double rateProf = addRate;
+                        final String name = professorName;
+
                         add_GPA.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(AddGPAActivity.this , GradeResultActivity.class);
-                                docRef.update(temp);
+                                if ( gpa != 0 && rateProf != 0 && name.isEmpty() ) {
+                                    Intent intent = new Intent(AddGPAActivity.this, GradeResultActivity.class);
+                                    docRef.update(temp);
 
-                                startActivity(intent);
+                                    startActivity(intent);
+                                }
+                                else {
+                                    
+                                }
                             }
                         });
 

@@ -1,5 +1,6 @@
 package edu.osu.hack.OSUGrades;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,10 +13,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,15 +31,18 @@ public class CourseListActivity extends AppCompatActivity {
     ArrayList<String> courseArray = new ArrayList<>();
     ArrayAdapter adapter;
     EditText et_search;
+    ListView courseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_list);
 
+        // Initialize the fire store, edit text, and list view
         db = FirebaseFirestore.getInstance();
 
-        et_search = findViewById(R.id.courseListEditText);
+        et_search = (EditText) findViewById(R.id.courseListEditText);
+        courseList = (ListView) findViewById(R.id.courseList);
 
         // Get the course data from the fire store
         db.collection("courses")
@@ -60,9 +66,6 @@ public class CourseListActivity extends AppCompatActivity {
         adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1,
                 courseArray);
-
-        // Set the course+ list view with its id
-        final ListView courseList = (ListView) findViewById(R.id.courseList);
 
         // Display the course name in the list view
         courseList.setAdapter(adapter);
@@ -89,11 +92,34 @@ public class CourseListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String courseName = (courseList.getItemAtPosition(position)).toString();
-                myStartActivity(courseName);
+                startActivity(courseName);
             }
         });
     }
 
+    @Override
+    public void onBackPressed() {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Would you like to logout?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // logout
+                        FirebaseAuth.getInstance().signOut();
+                        startLogoutActivity();
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // user doesn't want to logout
+                    }
+                })
+                .show();
+    }
+
+    // Get only the name of the course within the whole data
     private String nameGetter(String document) {
 
         // Split path into segments
@@ -105,16 +131,27 @@ public class CourseListActivity extends AppCompatActivity {
         return courseName;
     }
 
+    // Show the toast message if error occurs
     private void startToast() {
         Toast.makeText(this, "Failed to get the course data", Toast.LENGTH_SHORT).show();
     }
 
-    private void myStartActivity(String courseName) {
+    // Intent to the next page with the name of the course
+    private void startActivity(String courseName) {
 
         Intent intent = new Intent(this, GradeResultActivity.class);
         intent.putExtra("courseName", courseName);
         startActivity(intent);
 
     }
+
+    private void startLogoutActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+
 
 }

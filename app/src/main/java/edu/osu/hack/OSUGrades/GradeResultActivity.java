@@ -32,7 +32,6 @@ public class GradeResultActivity extends AppCompatActivity {
     TextView Average_GPA;
     TextView rating;
 
-    private MainAdapter mainAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
 
@@ -52,7 +51,6 @@ public class GradeResultActivity extends AppCompatActivity {
                     if ( doc.exists() ) {
                         Map<String, Object> temp = doc.getData();
                         Log.d("ERROR", "ERORRRRRRRRRRR" + temp.keySet().toString());
-                        ClassInfo infoTemp = new ClassInfo();
 
                         double averageGpa = (double) temp.get("averageGpa");
                         long averageRating = (long) temp.get("rating");
@@ -67,13 +65,7 @@ public class GradeResultActivity extends AppCompatActivity {
                             rating.setText("" + averageRating);
 
                             ClassName = findViewById(R.id.className);
-                            ClassName.setText(String.valueOf(infoTemp.getCourseID()));
-
-                            recyclerView = (RecyclerView)findViewById(R.id.professorList);
-                            recyclerView.setLayoutManager(linearLayoutManager);
-
-                            mainAdapter = new MainAdapter(list);
-                            recyclerView.setAdapter(mainAdapter);
+                            ClassName.setText(String.valueOf(temp.get("course")));
 
                             // infoTemp = new ClassInfo(courseID, averageGPA * reported, (ArrayList<String>) temp.get("professsors"), rate, reported);
                         }
@@ -83,13 +75,6 @@ public class GradeResultActivity extends AppCompatActivity {
 
                             rating = findViewById(R.id.rating);
                             rating.setText("" + averageRating);
-
-                            recyclerView = findViewById(R.id.professorList);
-                            recyclerView.setLayoutManager(linearLayoutManager);
-                            ArrayList<String> empty = new ArrayList<>();
-                            empty.add("empty");
-                            mainAdapter = new MainAdapter(empty);
-                            recyclerView.setAdapter(mainAdapter);
 
                             // infoTemp = new ClassInfo(courseID, averageGPA * reported, rate, reported);
                         }

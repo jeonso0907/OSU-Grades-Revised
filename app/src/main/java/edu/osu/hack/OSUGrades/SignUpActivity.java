@@ -133,7 +133,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void afterSignUpAlertMsg() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Look at this dialog!")
+        builder.setMessage("Please check your OSU email")
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

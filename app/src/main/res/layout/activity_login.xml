@@ -67,6 +67,12 @@
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:text="Sign up" />
+
+        <ImageView
+            android:layout_width="370dp"
+            android:layout_height="231dp"
+            android:src="@drawable/osu2"></ImageView>
+
     </LinearLayout>
 
 </LinearLayout>

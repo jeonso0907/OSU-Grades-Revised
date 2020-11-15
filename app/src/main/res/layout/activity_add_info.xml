@@ -76,5 +76,12 @@
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:text="Submit" />
+
+        <ImageView
+            android:layout_width="372dp"
+            android:layout_height="256dp"
+            android:src="@drawable/osu4"
+            ></ImageView>
+
     </LinearLayout>
 </LinearLayout>

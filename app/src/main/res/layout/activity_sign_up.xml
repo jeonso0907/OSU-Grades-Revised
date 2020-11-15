@@ -16,7 +16,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="620dp"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingTop="50dp"
@@ -59,6 +59,12 @@
             android:paddingBottom="20dp"
             android:text="Create new account"
             android:textColor="#ffffff" />
+
+        <ImageView
+            android:layout_width="372dp"
+            android:layout_height="256dp"
+            android:src="@drawable/osu1"
+            ></ImageView>
 
     </LinearLayout>
 </LinearLayout>

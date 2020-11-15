@@ -61,11 +61,11 @@
                 android:layout_marginLeft="10dp">
 
                 <TextView
-                    android:id="@+id/gpa_Average"
+                    android:id="@+id/rating"
                     android:layout_width="159dp"
                     android:layout_height="42dp"
                     android:ems="10"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:textSize="30dp" />
 
                 <TextView
@@ -82,11 +82,11 @@
                     android:textSize="30dp" />
 
                 <TextView
-                    android:id="@+id/rating"
+                    android:id="@+id/gpa_Average"
                     android:layout_width="159dp"
                     android:layout_height="42dp"
                     android:ems="10"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:textSize="30dp" />
 
             </LinearLayout>

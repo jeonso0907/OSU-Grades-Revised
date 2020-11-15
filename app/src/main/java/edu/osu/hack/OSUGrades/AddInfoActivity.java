@@ -111,7 +111,7 @@ public class AddInfoActivity  extends AppCompatActivity {
                 } else {
                     getData(gpa, difficulty, professor);
                 }
-                detailStartAcitivty(GradeResultActivity.class);
+                detailStartAcitivty(CourseListActivity.class);
             }
 
         }
@@ -128,71 +128,29 @@ public class AddInfoActivity  extends AppCompatActivity {
 
         final double currentGpa = gpa;
         final int currentRate = rate;
-
         DocumentReference dRef = FirebaseFirestore.getInstance().collection("courses").document(className.get("courseName"));
         dRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
                     if (doc.exists()) {
                         Map<String, Object> temp = doc.getData();
                         Log.d(TAG, "average Gpa: " + temp.get("averageGpa"));
-
-                        long reported = (long) temp.get("reported");
+                        double averageGpa = (double) temp.get("averageGpa");
+                        double averageRating = (double) temp.get("rating");
+                        double reported = (double) temp.get("reported");
+                        double avg = (averageGpa * reported + currentGpa) / (reported + 1);
+                        double rating = (averageRating * reported + currentRate) / (reported + 1);
                         DocumentReference updateRef = FirebaseFirestore.getInstance().collection("courses").document(className.get("courseName"));
-
-                        String GPA = "";
-                        String rate = "";
-
-                        if ( temp.get("averageGpa") instanceof Double ) {
-                            double averageGPA = (double) temp.get("averageGpa");
-                            GPA = "" + averageGPA;
-                        } else {
-                            long averageGPA = (long) temp.get("averageGpa");
-                            GPA = "" + averageGPA;
-                        }
-
-                        if ( temp.get("rating") instanceof Double ) {
-                            double averageRating = (double) temp.get("rating");
-                            rate = "" + averageRating;
-                        } else {
-                            long averageRating = (long) temp.get("rating");
-                            rate = "" + averageRating;
-                        }
-
-                        double avg = (Double.parseDouble(GPA) * reported + currentGpa) / (reported + 1);
-                        double rating = (Double.parseDouble(rate) * reported + currentRate) / (reported + 1);
-
                         updateRef.update("averageGpa", avg);
                         updateRef.update("rating", rating);
-                        updateRef.update("reported", reported + 1);
-
+                        updateRef.update("reported", reported+1);
                         if (temp.containsKey("professors")) {
                             if (!professor.isEmpty()) {
                                 List<String> professors = (ArrayList<String>) temp.get("professors");
                                 professors.add(professor);
                                 updateRef.update("professors", professors);
-                            }
-                        } else {
-                            if (!professor.isEmpty()) {
-                                String[] newList = {professor};
-                                temp.put("professors", Arrays.asList(newList));
-                                Log.d(TAG, "professors: " + temp.get("professors"));
-
-                                updateRef.set(temp).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                                    }
-                                })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });
                             }
                         }
                     } else {
@@ -207,8 +165,9 @@ public class AddInfoActivity  extends AppCompatActivity {
     private void detailStartAcitivty(Class c) {
         Intent intent = new Intent(this, c);
         intent.putExtra("courseName", className.get("courseName"));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        finish();
     }
-
-
 }

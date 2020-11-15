@@ -43,24 +43,13 @@ public class GradeResultActivity extends AppCompatActivity {
                     if (doc.exists()) {
                         Map<String, Object> temp = doc.getData();
                         Log.d("ERROR", "ERORRRRRRRRRRR" + temp.keySet().toString());
-                        String GPA = "";
-                        String rate = "";
 
-                        if ( temp.get("averageGpa") instanceof Double ) {
-                            double averageGPA = (double) temp.get("averageGpa");
-                            GPA = String.format("%.2f", averageGPA);
-                        } else {
-                            long averageGPA = (long) temp.get("averageGpa");
-                            GPA = String.format("%.2f", (double) averageGPA);
-                        }
+                         double averageGPA = (double) temp.get("averageGpa");
+                         String GPA = String.format("%.2f", averageGPA);
 
-                        if ( temp.get("rating") instanceof Double ) {
-                            double averageRating = (double) temp.get("rating");
-                            rate = String.format("%.2f", averageRating);
-                        } else {
-                            long averageRating = (long) temp.get("rating");
-                            rate = String.format("%.2f", (double) averageRating);
-                        }
+                         double averageRating = (double) temp.get("rating");
+                         String rate = String.format("%.2f", averageRating);
+
 
                         list = (ArrayList<String>) temp.get("professors");
                         if (list != null) {
@@ -90,6 +79,9 @@ public class GradeResultActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 Intent intent = new Intent(GradeResultActivity.this, AddInfoActivity.class);
                                 intent.putExtra("courseName", sessionID);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                finish();
                                 startActivity(intent);
                             }
                         });

@@ -2,7 +2,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent" android:orientation="vertical">
-
     <TextView
         android:id="@+id/className"
         android:layout_width="match_parent"
@@ -12,13 +11,11 @@
         android:text="TextView"
         android:textSize="24sp"
         android:textStyle="bold" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="40dp"
         android:orientation="vertical">
-
         <EditText
             android:id="@+id/gpaGrades"
             android:layout_width="match_parent"
@@ -27,8 +24,7 @@
             android:ems="10"
             android:gravity="center"
             android:hint="Gpa"
-            android:inputType="numberSigned" />
-
+            android:inputType="textPersonName" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,13 +32,11 @@
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:orientation="horizontal">
-
             <Button
                 android:id="@+id/decrease"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-" />
-
             <TextView
                 android:id="@+id/difCourse"
                 android:layout_width="50dp"
@@ -50,15 +44,12 @@
                 android:gravity="center"
                 android:text="5"
                 android:textStyle="bold" />
-
             <Button
                 android:id="@+id/increase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+" />
-
         </LinearLayout>
-
         <EditText
             android:id="@+id/profName"
             android:layout_width="match_parent"
@@ -67,7 +58,6 @@
             android:gravity="center"
             android:hint="Professor Name (optional)"
             android:inputType="textPersonName" />
-
         <Button
             android:id="@+id/submit"
             android:layout_width="match_parent"

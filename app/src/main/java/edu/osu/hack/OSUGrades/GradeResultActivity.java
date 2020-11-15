@@ -1,14 +1,17 @@
 package edu.osu.hack.OSUGrades;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -16,7 +19,10 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
 import java.util.ArrayList;
 import java.util.Map;
 public class GradeResultActivity extends AppCompatActivity {
@@ -35,6 +41,29 @@ public class GradeResultActivity extends AppCompatActivity {
         profList = (ListView) findViewById(R.id.profList);
         final String sessionID = getIntent().getStringExtra("courseName");
         DocumentReference docRef = FirebaseFirestore.getInstance().collection("courses").document(sessionID);
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.w("ERROR", "Listen failed", error);
+                }
+
+                if (value != null && value.exists()) {
+                    String averageGpa = String.format("%.2f", (double) value.getData().get("averageGpa"));
+                    String averageRate = String.format("%.2f", (double) value.getData().get("rating"));
+                    Average_GPA = findViewById(R.id.gpa_Average);
+                    Average_GPA.setText(averageGpa);
+                    rating = findViewById(R.id.rating);
+                    rating.setText(averageRate);
+                    list = (ArrayList<String>) value.getData().get("professors");
+                    profListSet(list);
+                    Log.d("Current", "Current Data: " + value.getData());
+                } else {
+                    Log.d("Current", "Current Data: " + value.getData());
+                }
+
+            }
+        });
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -97,5 +126,21 @@ public class GradeResultActivity extends AppCompatActivity {
                 list);
         // Display the course name in the list view
         profList.setAdapter(adapter);
+        // Make the list clickable
+        profList.setClickable(true);
+        profList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String profName = profList.getItemAtPosition(position).toString();
+                String url = "https://www.ratemyprofessors.com/search.jsp?query=" + profName;
+                startUrlActivity(url);
+            }
+        });
+    }
+
+    public void startUrlActivity(String url) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 }

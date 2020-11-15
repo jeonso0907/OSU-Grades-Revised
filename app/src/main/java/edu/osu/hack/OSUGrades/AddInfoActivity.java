@@ -52,6 +52,7 @@ public class AddInfoActivity  extends AppCompatActivity {
         findViewById(R.id.submit).setOnClickListener(onClickListener);
 
     }
+
     View.OnClickListener onButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -111,7 +112,7 @@ public class AddInfoActivity  extends AppCompatActivity {
                 } else {
                     getData(gpa, difficulty, professor);
                 }
-                detailStartAcitivty(CourseListActivity.class);
+                detailStartAcitivty(GradeResultActivity.class);
             }
 
         }

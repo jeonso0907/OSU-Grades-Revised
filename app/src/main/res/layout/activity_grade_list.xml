@@ -51,7 +51,7 @@
             <ImageView
                 android:layout_width="143dp"
                 android:layout_height="127dp"
-                android:layout_marginStart="250dp"
+                android:layout_marginStart="220dp"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/osu3" />
             <LinearLayout
@@ -61,32 +61,47 @@
                 android:layout_marginLeft="10dp">
 
                 <TextView
-                    android:id="@+id/rating"
-                    android:layout_width="159dp"
-                    android:layout_height="42dp"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:textSize="30dp" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="155dp"
-                    android:layout_height="42dp"
-                    android:text="Difficulty : "
-                    android:textSize="30dp" />
-                <TextView
                     android:id="@+id/textView"
-                    android:layout_width="95dp"
+                    android:layout_width="159dp"
                     android:layout_height="43dp"
-                    android:text="GPA : "
-                    android:textSize="30dp" />
+                    android:background="#317cff"
+                    android:gravity="center"
+                    android:text="GPA "
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/gpa_Average"
                     android:layout_width="159dp"
                     android:layout_height="42dp"
+                    android:background="#317cff"
                     android:ems="10"
+                    android:gravity="center"
                     android:inputType="numberDecimal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="30dp" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="159dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#52c74f"
+                    android:gravity="center"
+                    android:text="RATE"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/rating"
+                    android:layout_width="159dp"
+                    android:layout_height="42dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="#52c74f"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textColor="#FFFFFF"
                     android:textSize="30dp" />
 
             </LinearLayout>

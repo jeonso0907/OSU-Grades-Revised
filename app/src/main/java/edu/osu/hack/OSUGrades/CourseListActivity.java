@@ -28,15 +28,18 @@ public class CourseListActivity extends AppCompatActivity {
     ArrayList<String> courseArray = new ArrayList<>();
     ArrayAdapter adapter;
     EditText et_search;
+    ListView courseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_list);
 
+        // Initialize the fire store, edit text, and list view
         db = FirebaseFirestore.getInstance();
 
-        et_search = findViewById(R.id.courseListEditText);
+        et_search = (EditText) findViewById(R.id.courseListEditText);
+        courseList = (ListView) findViewById(R.id.courseList);
 
         // Get the course data from the fire store
         db.collection("courses")
@@ -60,9 +63,6 @@ public class CourseListActivity extends AppCompatActivity {
         adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1,
                 courseArray);
-
-        // Set the course list view with its id
-        final ListView courseList = (ListView) findViewById(R.id.courseList);
 
         // Display the course name in the list view
         courseList.setAdapter(adapter);
@@ -94,6 +94,7 @@ public class CourseListActivity extends AppCompatActivity {
         });
     }
 
+    // Get only the name of the course within the whole data
     private String nameGetter(String document) {
 
         // Split path into segments
@@ -105,10 +106,12 @@ public class CourseListActivity extends AppCompatActivity {
         return courseName;
     }
 
+    // Show the toast message if error occurs
     private void startToast() {
         Toast.makeText(this, "Failed to get the course data", Toast.LENGTH_SHORT).show();
     }
 
+    // Intent to the next page with the name of the course
     private void myStartActivity(String courseName) {
 
         Intent intent = new Intent(this, GradeResultActivity.class);

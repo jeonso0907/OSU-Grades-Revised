@@ -1,7 +1,10 @@
 package edu.osu.hack.OSUGrades;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.reflect.ClassPath;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,6 +25,7 @@ import java.util.Map;
 
 public class AddInfoActivity  extends AppCompatActivity {
     private final HashMap<String, String> className = new HashMap<String, String>();
+    private static final String TAG = "AddInfoActivity";
 //    private final String className = getIntent().getStringExtra("className");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +56,7 @@ public class AddInfoActivity  extends AppCompatActivity {
     };
 
     private void rateGpa(String gpaString, String difString, String professor) {
-        Double gpa = 0.0;
+        double gpa = 0.0;
         int difficulty = 0;
         try {
             gpa = Double.parseDouble(gpaString);
@@ -62,11 +67,13 @@ public class AddInfoActivity  extends AppCompatActivity {
 
         if (Double.compare(gpa, 0.0) > 0 && difficulty > 0) {
             if (professor.isEmpty()){
-                storeData(gpa, difficulty);
+                getData(gpa, difficulty, "");
             } else {
-                storeData(gpa, difficulty, professor);
+                getData(gpa, difficulty, professor);
             }
         }
+
+        detailStartAcitivty(GradeResultActivity.class);
     }
 
 
@@ -76,76 +83,53 @@ public class AddInfoActivity  extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    private void storeData(Double gpa, int rate) {
+    private void getData(double gpa, int rate, final String professor) {
 
-        final Map<String, Object> course = new HashMap<>();
+
+        final double currentGpa = gpa;
+        final int currentRate = rate;
         DocumentReference dRef = FirebaseFirestore.getInstance().collection("courses").document(className.get("className"));
         dRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
+
                     if (doc.exists()) {
-                       course.put("averageGpa", doc.getData().get("averageGpa"));
-                       course.put("rating", doc.getData().get("rating"));
+                        Map<String, Object> temp = doc.getData();
+
+                        double averageGpa = (double) temp.get("averageGpa");
+                        long averageRating = (long) temp.get("rating");
+                        long reported = (long) temp.get("reported");
+
+                        double avg = (averageGpa * reported + currentGpa) / (reported + 1);
+                        long rating = (averageRating * reported + currentRate) / (reported + 1);
+
+                        DocumentReference updateRef = FirebaseFirestore.getInstance().collection("courses").document(className.get("className"));
+                        updateRef.update("averageGpa", avg);
+                        updateRef.update("rating", rating);
+                        updateRef.update("reported", reported+1);
+
+                        if (temp.containsKey("professors")) {
+                            String[] professors = (String[]) temp.get("professors");
+                        } else {
+                            if (!professor.isEmpty()) {
+                                String[] newList = {professor};
+                            }
+                        }
+                    } else {
+                        Log.d(TAG, "No such document");
                     }
                 }
             }
         });
 
-        double avg = ((double) course.get("averageGpa") * (double) course.get("reported") + gpa) / ((double) course.get("reported") + 1);
-        double rating = ((double) course.get("rating") * (double) course.get("reported") + rate) / ((double) course.get("reported") + 1);
-
-//        course.put("averageGpa", dRef.dat)
     }
-    private void storeData(Double gpa, int rate, String professor) {
-        final Map<String, Object> course = new HashMap<>();
-        DocumentReference dRef = FirebaseFirestore.getInstance().collection("courses").document(className.get("className"));
-        dRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot doc = task.getResult();
-                    if (doc.exists()) {
-                        course.put("averageGpa", doc.getData().get("averageGpa"));
-                        course.put("rating", doc.getData().get("rating"));
-                        course.put("reported", doc.getData().get("reported"));
-                        course.put("professors", doc.getData().get("professors"));
-                    }
-                }
-            }
-        });
 
-        double avg = ((double) course.get("averageGpa") * (double) course.get("reported") + gpa) / ((double) course.get("reported") + 1);
-        double rating = ((double) course.get("rating") * (double) course.get("reported") + rate) / ((double) course.get("reported") + 1);
-        if (course.get("professors") != null) {
-            String[] professors = (String[]) course.get("professors");
-            ArrayList<String> profList = new ArrayList<>();
-            boolean hasItem = true;
-            for (int i = 0; i < professors.length; i++) {
-                if (!professors[i].equals(professor)) {
-                    hasItem = false;
-                } else {
-                    break;
-                }
-            }
-            if (!hasItem) {
-                for (String s : professors) {
-                    profList.add(s);
-                }
-                profList.add(professor);
-                course.put("professors", profList.toArray());
-            }
-
-        } else {
-            String[] professors = {professor};
-            course.put("professors", professors);
-        }
-
-        dRef.update("averageGpa", avg);
-        dRef.update("rating", rating);
-        dRef.update("professors", course.get("professors"));
-
-
+    private void detailStartAcitivty(Class c) {
+        Intent intent = new Intent(this, c);
+        startActivity(intent);
     }
+
 }

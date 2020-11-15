@@ -128,6 +128,7 @@ public class AddInfoActivity  extends AppCompatActivity {
 
         final double currentGpa = gpa;
         final int currentRate = rate;
+
         DocumentReference dRef = FirebaseFirestore.getInstance().collection("courses").document(className.get("courseName"));
         dRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -138,14 +139,32 @@ public class AddInfoActivity  extends AppCompatActivity {
                     if (doc.exists()) {
                         Map<String, Object> temp = doc.getData();
                         Log.d(TAG, "average Gpa: " + temp.get("averageGpa"));
-                        double averageGpa = (double) temp.get("averageGpa");
-                        long averageRating = (long) temp.get("rating");
+
                         long reported = (long) temp.get("reported");
-
-                        double avg = (averageGpa * reported + currentGpa) / (reported + 1);
-                        long rating = (averageRating * reported + currentRate) / (reported + 1);
-
                         DocumentReference updateRef = FirebaseFirestore.getInstance().collection("courses").document(className.get("courseName"));
+
+                        String GPA = "";
+                        String rate = "";
+
+                        if ( temp.get("averageGpa") instanceof Double ) {
+                            double averageGPA = (double) temp.get("averageGpa");
+                            GPA = "" + averageGPA;
+                        } else {
+                            long averageGPA = (long) temp.get("averageGpa");
+                            GPA = "" + averageGPA;
+                        }
+
+                        if ( temp.get("rating") instanceof Double ) {
+                            double averageRating = (double) temp.get("rating");
+                            rate = "" + averageRating;
+                        } else {
+                            long averageRating = (long) temp.get("rating");
+                            rate = "" + averageRating;
+                        }
+
+                        double avg = (Double.parseDouble(GPA) * reported + currentGpa) / (reported + 1);
+                        double rating = (Double.parseDouble(rate) * reported + currentRate) / (reported + 1);
+
                         updateRef.update("averageGpa", avg);
                         updateRef.update("rating", rating);
                         updateRef.update("reported", reported + 1);
@@ -190,5 +209,6 @@ public class AddInfoActivity  extends AppCompatActivity {
         intent.putExtra("courseName", className.get("courseName"));
         startActivity(intent);
     }
+
 
 }

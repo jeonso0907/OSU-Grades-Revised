@@ -43,25 +43,44 @@ public class GradeResultActivity extends AppCompatActivity {
                     if (doc.exists()) {
                         Map<String, Object> temp = doc.getData();
                         Log.d("ERROR", "ERORRRRRRRRRRR" + temp.keySet().toString());
-                        double averageGpa = (double) temp.get("averageGpa");
-                        long averageRating = (long) temp.get("rating");
+                        String GPA = "";
+                        String rate = "";
+
+                        if ( temp.get("averageGpa") instanceof Double ) {
+                            double averageGPA = (double) temp.get("averageGpa");
+                            GPA = String.format("%.2f", averageGPA);
+                        } else {
+                            long averageGPA = (long) temp.get("averageGpa");
+                            GPA = String.format("%.2f", (double) averageGPA);
+                        }
+
+                        if ( temp.get("rating") instanceof Double ) {
+                            double averageRating = (double) temp.get("rating");
+                            rate = String.format("%.2f", averageRating);
+                        } else {
+                            long averageRating = (long) temp.get("rating");
+                            rate = String.format("%.2f", (double) averageRating);
+                        }
+
                         list = (ArrayList<String>) temp.get("professors");
-                        if (!list.isEmpty()) {
+                        if (list != null) {
                             Average_GPA = findViewById(R.id.gpa_Average);
-                            Average_GPA.setText("" + averageGpa);
+                            Average_GPA.setText(GPA);
                             rating = findViewById(R.id.rating);
-                            rating.setText("" + averageRating);
+                            rating.setText(rate);
                             ClassName = findViewById(R.id.className);
                             ClassName.setText(String.valueOf(temp.get("course")));
                             profListSet(list);
-                            // infoTemp = new ClassInfo(courseID, averageGPA * reported, (ArrayList<String>) temp.get("professsors"), rate, reported);
+
                         } else {
                             Average_GPA = findViewById(R.id.gpa_Average);
-                            Average_GPA.setText("" + averageGpa);
+                            Average_GPA.setText(GPA);
                             rating = findViewById(R.id.rating);
-                            rating.setText("" + averageRating);
-                            profListSet(list);
-                            // infoTemp = new ClassInfo(courseID, averageGPA * reported, rate, reported);
+                            rating.setText(rate);
+
+                            ArrayList<String> templist = new ArrayList<>();
+                            templist.add("Empty");
+                            profListSet(templist);
                         }
                         ClassName = findViewById(R.id.className);
                         ClassName.setText(temp.get("course").toString());
@@ -72,20 +91,6 @@ public class GradeResultActivity extends AppCompatActivity {
                                 Intent intent = new Intent(GradeResultActivity.this, AddInfoActivity.class);
                                 intent.putExtra("courseName", sessionID);
                                 startActivity(intent);
-                            }
-                        });
-                        logout = findViewById(R.id.logout);
-                        logout.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                switch (v.getId()) {
-                                    case R.id.logout:
-                                        FirebaseAuth.getInstance().signOut();
-                                        logout.setText("LOG IN");
-                                        Intent intent = new Intent(GradeResultActivity.this, LoginActivity.class);
-                                        startActivity(intent);
-                                        break;
-                                }
                             }
                         });
                     }

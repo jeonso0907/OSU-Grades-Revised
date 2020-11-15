@@ -5,96 +5,101 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:orientation="vertical">
-
-        <Button
-            android:id="@+id/add_GPA"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add GPA" />
-
-        <Button
-            android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="LOG Out" />
-
-        <TextView
-            android:id="@+id/gpa_Average"
-            android:layout_width="159dp"
-            android:layout_height="42dp"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            android:textSize="30dp" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="155dp"
-            android:layout_height="42dp"
-            android:text="Difficulty : "
-            android:textSize="30dp" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="95dp"
-            android:layout_height="43dp"
-            android:text="GPA : "
-            android:textSize="30dp" />
-
-        <TextView
-            android:id="@+id/rating"
-            android:layout_width="159dp"
-            android:layout_height="42dp"
-            android:ems="10"
-            android:inputType="number"
-            android:textSize="30dp" />
-
-        <TextView
-            android:id="@+id/className"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
-
-
-        <TextView
-            android:id="@+id/textView3"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:background="#bb0000"
-            android:gravity="center"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#bb0000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/className"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CSE1121"
+                android:textSize="20dp"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"/>
+            <Button
+                android:id="@+id/add_GPA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="320dp"
+                android:text="Add GPA" />
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+            <ImageView
+                android:layout_width="143dp"
+                android:layout_height="127dp"
+                android:layout_marginStart="250dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/osu3" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
 
-        <ImageView
-            android:layout_width="143dp"
-            android:layout_height="127dp"
-            android:src="@drawable/osu3"
-            tools:layout_editor_absoluteX="267dp"
-            tools:layout_editor_absoluteY="150dp"></ImageView>
+                <TextView
+                    android:id="@+id/gpa_Average"
+                    android:layout_width="159dp"
+                    android:layout_height="42dp"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    android:textSize="30dp" />
 
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="155dp"
+                    android:layout_height="42dp"
+                    android:text="Difficulty : "
+                    android:textSize="30dp" />
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="95dp"
+                    android:layout_height="43dp"
+                    android:text="GPA : "
+                    android:textSize="30dp" />
+
+                <TextView
+                    android:id="@+id/rating"
+                    android:layout_width="159dp"
+                    android:layout_height="42dp"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:textSize="30dp" />
+
+            </LinearLayout>
+        </FrameLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
             <ListView
                 android:id="@+id/profList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

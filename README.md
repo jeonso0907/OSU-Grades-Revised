@@ -21,7 +21,14 @@
 </p>
 
 ## Course List
-### Search CSE 2231 course
+- Display all engineering courses
+- User can type and search the specific course
+- Search CSE 2231 course
+<p align="center">
+<img src="https://user-images.githubusercontent.com/65969657/103438820-b0270380-4c7a-11eb-940c-b19e5bbbf1bd.gif" width="300" height="500">
+</p>
+
+## Add Rating
 <p align="center">
 <img src="https://user-images.githubusercontent.com/65969657/103438820-b0270380-4c7a-11eb-940c-b19e5bbbf1bd.gif" width="300" height="500">
 </p>

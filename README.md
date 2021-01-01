@@ -28,7 +28,10 @@
 <img src="https://user-images.githubusercontent.com/65969657/103438820-b0270380-4c7a-11eb-940c-b19e5bbbf1bd.gif" width="300" height="500">
 </p>
 
-## Add Rating
+## Course Rate & Add Rating
+- Display the course rate
+- Update the course rate based on the new rate
+- Update the professor name if it is typed by the user
 <p align="center">
-<img src="https://user-images.githubusercontent.com/65969657/103438820-b0270380-4c7a-11eb-940c-b19e5bbbf1bd.gif" width="300" height="500">
+<img src="https://user-images.githubusercontent.com/65969657/103438963-09436700-4c7c-11eb-9d06-ee75e6348599.gif" width="300" height="500">
 </p>

@@ -11,7 +11,11 @@
 </p>
 
 ## Email Verification
+<p align="center">
 <img src="https://user-images.githubusercontent.com/65969657/103434401-3116d880-4c44-11eb-876e-915d4be1a884.gif" width="300" height="500">
+</p>
 
 ## Login
+<p align="center">
 <img src="https://user-images.githubusercontent.com/65969657/103438575-7ef90400-4c77-11eb-9b97-f3cef5b1ede3.gif" width="300" height="500">
+</p>

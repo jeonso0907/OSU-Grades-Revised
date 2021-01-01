@@ -28,23 +28,29 @@ import java.util.ArrayList;
 
 public class CourseListActivity extends AppCompatActivity {
 
+    // Set Firebase Database
     FirebaseFirestore db;
+    // Set an array list to store all the courses in the database
     ArrayList<String> courseArray = new ArrayList<>();
+    // Set an array adapter to update the courses
     ArrayAdapter adapter;
+    // Set an edit text to search the course
     EditText et_search;
+    // Set a list to show the array
     ListView courseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_list);
+        // Set Firebase Auth and get the current user
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // If the user is null, stop and exit the app
         if (user == null) {
             android.os.Process.killProcess(android.os.Process.myPid());
         }
         // Initialize the fire store, edit text, and list view
         db = FirebaseFirestore.getInstance();
-
         et_search = (EditText) findViewById(R.id.courseListEditText);
         courseList = (ListView) findViewById(R.id.courseList);
 

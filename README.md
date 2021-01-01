@@ -35,3 +35,10 @@
 <p align="center">
 <img src="https://user-images.githubusercontent.com/65969657/103438963-09436700-4c7c-11eb-9d06-ee75e6348599.gif" width="300" height="500">
 </p>
+
+## Rate My Professor
+- Connect each professor with their "rate my professor" website profile
+- Display the detailed ratings of the professor
+<p align="center">
+<img src="https://user-images.githubusercontent.com/65969657/103439097-786d8b00-4c7d-11eb-9e52-590970ac8172.gif" width="300" height="500">
+</p>
